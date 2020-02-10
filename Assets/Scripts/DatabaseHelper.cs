@@ -24,14 +24,20 @@ public static class DatabaseHelper
         sqlCommand.CommandText = "SELECT * FROM ChatRoomAccount WHERE name='" + name + "';";
         MySqlDataReader reader = sqlCommand.ExecuteReader();
         if(reader.Read()==false)
+        {
+            reader.Close();
+            mysqlConnection.Close();
             return false;//如果没取到内容，就说明服务器里没有这个帐号了
+        }
         if (reader.GetString("password") == password)
         {
+            reader.Close();
             mysqlConnection.Close();
             return true;//取到了内容并且密码正确
         }
         else
         {
+            reader.Close();
             mysqlConnection.Close();
             return false;//取到了内容但是密码错误
         }
@@ -50,10 +56,15 @@ public static class DatabaseHelper
         sqlCommand.CommandText = "SELECT * FROM ChatRoomAccount WHERE name='" + name + "';";
         MySqlDataReader reader = sqlCommand.ExecuteReader();
         if(reader.Read())
+        {
+            reader.Close();
+            mysqlConnection.Close();
             return false;//如果获取到内容，就说明账号已经存在
+        }
         reader.Close();
         sqlCommand.CommandText = "INSERT INTO ChatRoomAccount VALUES ('" + name + "','" + password + "');";
         sqlCommand.ExecuteNonQuery();
+        mysqlConnection.Close();
         return true;
     }
 }
