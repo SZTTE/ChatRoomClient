@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ChatTextManager : MonoBehaviour
+{
+    [SerializeField] private Text textBox;
+    private FalseConnector connector;
+    public static ChatTextManager Instance;
+
+    public ChatTextManager()
+    {
+        Instance = this;
+    }
+
+    IEnumerator Start()
+    {
+        connector = new FalseConnector();
+        ReceivedMessage lastRe = new ReceivedMessage("","");
+        while (connector.isOpen)
+        {
+            yield return new WaitForSeconds(1f);
+            ReceivedMessage re = connector.Receive();
+            if (ButtonManager.instance.name != re.Name && !lastRe.Equals(re))
+            {
+                textBox.text +=
+                    $"\n<color=#53bdb6FF><size=15>{re.Name}</size></color>\t\t<color=#727272FF><size=13>{DateTime.Now.ToString()}</size></color>";
+                textBox.text += "\n" + re.Message;
+            }
+
+            //下面删除上方多余的字符
+            if (textBox.text.Length >= 4000)
+            {
+                textBox.text = textBox.text.Remove(0,textBox.text.IndexOf('\n',500));
+            }
+            
+            lastRe = re;
+        }
+    }
+
+    public void AddMyMessage(string message)
+    {
+        textBox.text += $"\n<color=#fcff39FF><size=15>{ButtonManager.instance.userName}</size></color>\t\t<color=#727272FF><size=13>{DateTime.Now.ToString()}</size></color>";
+        textBox.text += "\n"+message;
+    }
+}

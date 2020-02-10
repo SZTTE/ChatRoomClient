@@ -6,7 +6,9 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="ButtonManager.cs" t="Include" />
+          <e p="ChatTextManager.cs" t="Include" />
           <e p="DatabaseHelper.cs" t="Include" />
+          <e p="FalseConnector.cs" t="Include" />
           <e p="ForTest.cs" t="Include" />
         </e>
       </e>

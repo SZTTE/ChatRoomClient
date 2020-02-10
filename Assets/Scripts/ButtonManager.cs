@@ -10,7 +10,15 @@ public class ButtonManager:MonoBehaviour
     [SerializeField] private InputField passwordBox;
     [SerializeField] private Text instructionText;
     [SerializeField] private GameObject signInterface;
-    private String userName;
+    [SerializeField] private InputField mainInputField;
+    public String userName = "unnamed";
+    public static ButtonManager instance;
+    private FalseConnector Connector;
+    public ButtonManager()
+    {
+        instance = this;
+        Connector = new FalseConnector();
+    }
 
     public void AccountButton()
     {
@@ -25,6 +33,7 @@ public class ButtonManager:MonoBehaviour
             userName = nameBox.text;
             yield return new WaitForSeconds(2f);
             signInterface.SetActive(false);
+            Connector.StartConnect(userName);
         }
         else
         {
@@ -34,6 +43,7 @@ public class ButtonManager:MonoBehaviour
                 userName = nameBox.text;
                 yield return new WaitForSeconds(2f);
                 signInterface.SetActive(false);
+                Connector.StartConnect(userName);
             }
             else
             {//密码错误的情况
@@ -42,5 +52,12 @@ public class ButtonManager:MonoBehaviour
         }
         
         yield break;
+    }
+
+    public void SendButton()
+    {
+        Connector.Send(mainInputField.text);
+        ChatTextManager.Instance.AddMyMessage(mainInputField.text);
+        mainInputField.text = "";
     }
 }
