@@ -10,19 +10,22 @@ public class ChatTextManager : MonoBehaviour
     [SerializeField] private Text textBox;
     private FalseConnector connector;
     public static ChatTextManager Instance;
-
+    private ReceivedMessage lastRe;
     public ChatTextManager()
     {
         Instance = this;
     }
 
-    IEnumerator Start()
+    void Start()
     {
-        connector = new FalseConnector();
-        ReceivedMessage lastRe = new ReceivedMessage("","");
-        while (connector.isOpen)
+        connector = FalseConnector.Instance;
+        lastRe = new ReceivedMessage("","");
+    }
+
+    void Update()
+    {
+        if (connector.newMessageCome)
         {
-            yield return new WaitForSeconds(1f);
             ReceivedMessage re = connector.Receive();
             if (ButtonManager.instance.name != re.Name && !lastRe.Equals(re))
             {

@@ -17,7 +17,7 @@ public class ButtonManager:MonoBehaviour
     public ButtonManager()
     {
         instance = this;
-        Connector = new FalseConnector();
+        Connector = FalseConnector.Instance;
     }
 
     public void AccountButton()
