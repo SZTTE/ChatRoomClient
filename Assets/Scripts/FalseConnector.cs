@@ -45,7 +45,8 @@ public class FalseConnector : MonoBehaviour
         {
             haveGotMessage = false;
             newMessageCome = true;
-            re = new ReceivedMessage("aabc",messageRead+UnityEngine.Random.Range(1,100));
+            int bellPosition = messageRead.IndexOf('\a');
+            re = new ReceivedMessage(messageRead.Remove(bellPosition),messageRead.Remove(0,bellPosition));
         }
     }
 

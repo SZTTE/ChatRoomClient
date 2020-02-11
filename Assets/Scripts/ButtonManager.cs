@@ -27,7 +27,7 @@ public class ButtonManager:MonoBehaviour
 
     public IEnumerator AccountButtonCor()
     {
-        if (DatabaseHelper.SignUp(nameBox.text, passwordBox.text)) //如果注册失败，即数据库有此账号
+        if (DatabaseHelper.SignUp(nameBox.text, passwordBox.text)) 
         {//注册成功的情况
             instructionText.text = $"~注册了名为{nameBox.text}的新账号！";
             userName = nameBox.text;
@@ -35,7 +35,7 @@ public class ButtonManager:MonoBehaviour
             signInterface.SetActive(false);
             Connector.StartConnect(userName);
         }
-        else
+        else//如果注册失败，即数据库有此账号，就改为登录
         {
             if (DatabaseHelper.CheckAccount(nameBox.text, passwordBox.text))
             {//登陆成功的情况
@@ -56,8 +56,20 @@ public class ButtonManager:MonoBehaviour
 
     public void SendButton()
     {
-        Connector.Send(mainInputField.text);
-        ChatTextManager.Instance.AddMyMessage(mainInputField.text);
+        Connector.Send(userName+"\a"+mainInputField.text);
         mainInputField.text = "";
+    }
+
+    public void OnInput()
+    {
+        if (!mainInputField.text.Equals("")&&mainInputField.text[mainInputField.text.Length - 1] == '\n')
+        {
+            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl)
+            ) //按下enter时，如果没有同时按下control，才发送
+            {
+                mainInputField.text = mainInputField.text.Remove(mainInputField.text.Length - 1);
+                SendButton();
+            }
+        }
     }
 }

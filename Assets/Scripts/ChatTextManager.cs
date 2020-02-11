@@ -19,7 +19,6 @@ public class ChatTextManager : MonoBehaviour
     void Start()
     {
         connector = FalseConnector.Instance;
-        lastRe = new ReceivedMessage("","");
     }
 
     void Update()
@@ -27,11 +26,16 @@ public class ChatTextManager : MonoBehaviour
         if (connector.newMessageCome)
         {
             ReceivedMessage re = connector.Receive();
-            if (ButtonManager.instance.name != re.Name && !lastRe.Equals(re))
+            if (re.Name!=ButtonManager.instance.userName)//如果接收到的消息不是本人发出的，将用户名显示为蓝色
             {
                 textBox.text +=
                     $"\n<color=#53bdb6FF><size=15>{re.Name}</size></color>\t\t<color=#727272FF><size=13>{DateTime.Now.ToString()}</size></color>";
                 textBox.text += "\n" + re.Message;
+            }
+            else//如果接收到的信息是本人发生的
+            {
+                textBox.text += $"\n<color=#fcff39FF><size=15>{ButtonManager.instance.userName}</size></color>\t\t<color=#727272FF><size=13>{DateTime.Now.ToString()}</size></color>";
+                textBox.text += "\n"+re.Message;
             }
 
             //下面删除上方多余的字符
@@ -39,14 +43,7 @@ public class ChatTextManager : MonoBehaviour
             {
                 textBox.text = textBox.text.Remove(0,textBox.text.IndexOf('\n',500));
             }
-            
-            lastRe = re;
         }
     }
 
-    public void AddMyMessage(string message)
-    {
-        textBox.text += $"\n<color=#fcff39FF><size=15>{ButtonManager.instance.userName}</size></color>\t\t<color=#727272FF><size=13>{DateTime.Now.ToString()}</size></color>";
-        textBox.text += "\n"+message;
-    }
 }
