@@ -71,7 +71,7 @@ public class Client : IDisposable
     }
 
     /// <summary>
-    /// 从服务器获取信息。此为同步方法，需要用协程或是多线程处理。
+    /// 从服务器获取信息。
     /// </summary>
     /// <returns>返回<c>string</c>类型，是获取的原始信息。</returns>
     public void StartReceive(Action<string> action)

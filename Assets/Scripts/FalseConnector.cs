@@ -11,7 +11,7 @@ public class FalseConnector : MonoBehaviour
     private Boolean haveGotMessage = false;
     private string messageRead;
     public Boolean newMessageCome = false;
-    private ReceivedMessage re;
+    private ReceivedMessage re = new ReceivedMessage("", "");
     public static FalseConnector Instance;
 
     public FalseConnector()
@@ -45,8 +45,10 @@ public class FalseConnector : MonoBehaviour
         {
             haveGotMessage = false;
             newMessageCome = true;
-            int bellPosition = messageRead.IndexOf('\a');
-            re = new ReceivedMessage(messageRead.Remove(bellPosition),messageRead.Remove(0,bellPosition));
+
+            string[] strs = messageRead.Split('\a');
+            re.Name = strs[0];
+            re.Message = strs[1];
         }
     }
 
@@ -65,8 +67,8 @@ public class FalseConnector : MonoBehaviour
 
 public class ReceivedMessage
 {
-    public string Name { get; }
-    public string Message { get; }
+    public string Name { get; set; }
+    public string Message { get; set; }
 
     public ReceivedMessage(string name, string message)
     {

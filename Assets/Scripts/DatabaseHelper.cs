@@ -18,12 +18,12 @@ public static class DatabaseHelper
     /// <param name="name">待检测的账户名</param>
     /// <param name="password">待检测的密码</param>
     /// <returns>如果吻合就返回真</returns>
-    public static Boolean CheckAccount(string name, string password)
+    public static bool CheckAccount(string name, string password)
     {
         mysqlConnection.Open();
         sqlCommand.CommandText = "SELECT * FROM ChatRoomAccount WHERE name='" + name + "';";
         MySqlDataReader reader = sqlCommand.ExecuteReader();
-        if(reader.Read()==false)
+        if(!reader.Read())
         {
             reader.Close();
             mysqlConnection.Close();
@@ -50,7 +50,7 @@ public static class DatabaseHelper
     /// <param name="name">待注册的用户名</param>
     /// <param name="password">待注册的密码</param>
     /// <returns>如果账号已经存在就返回假</returns>
-    public static Boolean SignUp(string name, string password)
+    public static bool SignUp(string name, string password)
     {
         mysqlConnection.Open();
         sqlCommand.CommandText = "SELECT * FROM ChatRoomAccount WHERE name='" + name + "';";

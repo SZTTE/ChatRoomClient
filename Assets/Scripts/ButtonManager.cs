@@ -11,7 +11,7 @@ public class ButtonManager:MonoBehaviour
     [SerializeField] private Text instructionText;
     [SerializeField] private GameObject signInterface;
     [SerializeField] private InputField mainInputField;
-    public String userName = "unnamed";
+    public string userName = "unnamed";
     public static ButtonManager instance;
     private FalseConnector Connector;
     public ButtonManager()
@@ -56,16 +56,18 @@ public class ButtonManager:MonoBehaviour
 
     public void SendButton()
     {
+        if (mainInputField.text == "")
+            return;
+
         Connector.Send(userName+"\a"+mainInputField.text);
         mainInputField.text = "";
     }
 
     public void OnInput()
     {
-        if (!mainInputField.text.Equals("")&&mainInputField.text[mainInputField.text.Length - 1] == '\n')
+        if (!(mainInputField.text == "") && mainInputField.text[mainInputField.text.Length - 1] == '\n')
         {
-            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl)
-            ) //按下enter时，如果没有同时按下control，才发送
+            if (!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl))  //按下enter时，如果没有同时按下control，才发送
             {
                 mainInputField.text = mainInputField.text.Remove(mainInputField.text.Length - 1);
                 SendButton();
