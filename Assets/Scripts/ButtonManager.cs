@@ -59,7 +59,7 @@ public class ButtonManager:MonoBehaviour
         if (mainInputField.text == "")
             return;
 
-        Connector.Send(userName+"\a"+mainInputField.text);
+        Connector.Send(userName+"\x3"+mainInputField.text);
         mainInputField.text = "";
     }
 

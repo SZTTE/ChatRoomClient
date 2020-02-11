@@ -21,6 +21,7 @@ public class ChatTextManager : MonoBehaviour
         connector = FalseConnector.Instance;
     }
 
+    
     void Update()
     {
         if (connector.newMessageCome)

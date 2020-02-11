@@ -13,11 +13,12 @@ using System.Text;
 public class Client : IDisposable
 {
     public bool IsConnected { get => ClientSocket.Connected; }
-    private int Port { get; } = 10086;
+    private int Port { get; } = 27105;
+    //private int Port { get; } = 10086;
     private byte[] Data { get; set; }
     private Socket ClientSocket { get; set; }
-    private string IP { get; } = "212.64.93.68";
-    //private string IP { get; } = "127.0.0.1";
+    //private string IP { get; } = "212.64.93.68";
+    private string IP { get; } = "127.0.0.1";
 
     private event Action<string> onReceived;
 
